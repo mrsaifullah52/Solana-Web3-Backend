@@ -34,8 +34,23 @@ const main = async () => {
   });
 
   // get the account again to see changes
-  account= await program.account.baseAccount.fetch(baseAccount.publicKey);
-  console.log('👀 GIF Count', account.totalGifs.toString())
+  account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+  console.log("👀 GIF Count", account.totalGifs.toString());
+
+  // passing GIF Link and User Data
+  await program.rpc.addGif("https://giphy.com/embed/jJjb9AUHOiP3nJJMdy/video", {
+    accounts: {
+      baseAccount: baseAccount.publicKey,
+      user: provider.wallet.publicKey,
+    },
+  }); 
+
+  // calling the account
+  account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+  console.log("👀 GIF Count", account.totalGifs.toString());
+
+  // accessing the gif_list
+  console.log("👀 GIF List", account.gifList);
 };
 
 const runMain = async () => {

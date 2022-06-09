@@ -16,20 +16,20 @@ pub mod myepicproject {
     }
 
 
-    pub fn add_gif(ctx: Context<AddGif>) -> Result <()>{
+    pub fn add_gif(ctx: Context<AddGif>, gif_link: String) -> Result <()>{
         let base_account=&mut ctx.accounts.base_account;
         let user = &mut ctx.accounts.user;
 
 
         // build the struct
-        let item = ItemStruct{
-            git_link: gif_link.to_string(),
+        let item = ItemStruct {
+            gif_link: gif_link.to_string(),
             user_address: *user.to_account_info().key,
-        };
+          };
 
     
         // add it to gif_list vector
-        base_account.gif_link.push(item);
+        base_account.gif_list.push(item);
         base_account.total_gifs += 1;       
         Ok(())
     }
@@ -47,12 +47,12 @@ pub struct StartStuffOff<'info> {
 
 
 #[derive(Accounts)]
-pub struct AddGif<'info>{
+pub struct AddGif<'info> {
     #[account(mut)]
     pub base_account: Account<'info, BaseAccount>,
     #[account(mut)]
-    pub user:Signer<'info>,
-}
+    pub user: Signer<'info>,
+  }
 
 
 // custom struct
